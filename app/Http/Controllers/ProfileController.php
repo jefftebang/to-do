@@ -62,10 +62,7 @@ class ProfileController extends Controller
             ]);
         }
 
-        $profile = Profile::where([
-            ['id', $req->profileId],
-            ['deleted_at', null]
-        ])->first();
+        $profile = Profile::find($req->profileId);
         $profile->update([
             'name' => $ucName
         ]);
