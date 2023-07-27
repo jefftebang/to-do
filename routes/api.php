@@ -2,7 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ToDoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,5 +16,12 @@ use App\Http\Controllers\UserController;
 |
 */
 
-Route::get('get-users', [UserController::class, 'getUsers']);
-Route::post('store-user', [UserController::class, 'storeUser']);
+// Profiles
+Route::get('get-profiles', [ProfileController::class, 'getProfiles']);
+Route::post('store-profile', [ProfileController::class, 'storeProfile']);
+Route::post('update-profile', [ProfileController::class, 'updateProfile']);
+Route::post('delete-profile', [ProfileController::class, 'deleteProfile']);
+
+// ToDos
+Route::get('get-to-do-list', [ToDoController::class, 'getToDoList']);
+Route::post('store-to-do-list', [ToDoController::class, 'storeToDo']);
