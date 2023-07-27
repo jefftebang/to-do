@@ -25,3 +25,5 @@ Route::post('delete-profile', [ProfileController::class, 'deleteProfile']);
 // ToDos
 Route::get('get-to-do-list', [ToDoController::class, 'getToDoList']);
 Route::post('store-to-do-list', [ToDoController::class, 'storeToDo']);
+Route::post('update-to-do-list', [ToDoController::class, 'updateToDo']);
+Route::post('delete-to-do-list', [ToDoController::class, 'deleteToDo']);
