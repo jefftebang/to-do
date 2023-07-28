@@ -10,17 +10,21 @@ class ProfileController extends Controller
 {
     public function getProfiles() {
         return response()->json([
-            'profiles' => Profile::where('deleted_at', null)->get()
+            'profiles' => Profile::where('deleted_at', null)->orderBy('is_default', 'desc')->orderBy('name', 'asc')->get(),
+            'default' => Profile::where([
+                ['deleted_at', null],
+                ['is_default', true]
+            ])->first('id')
         ], 200);
     }
 
     public function storeProfile(Request $req) {
         $ucName = ucwords(strtolower($req->name));
         $validator = Validator::make($req->all(), [
-            'name' => ['required', 'string', 'unique:profiles', 'max:255']
+            'name' => ['required', 'string', 'unique:profiles,name,NULL,id,deleted_at,NULL', 'max:50']
         ],[
-            'name.required' => 'Name is required.',
-            'name.unique' => 'The name '.$ucName.' is already exist.'
+            'name.required' => 'Profile name is required.',
+            'name.unique' => 'Profile name is already exist.'
         ]);
 
         if ($validator->fails()) {
@@ -43,6 +47,7 @@ class ProfileController extends Controller
         $profile->save();
 
         return response()->json([
+            'success' => 'Profile successfully created.',
             'profile' => $profile
         ], 200);
     }
@@ -50,10 +55,10 @@ class ProfileController extends Controller
     public function updateProfile(Request $req) {
         $ucName = ucwords(strtolower($req->name));
         $validator = Validator::make($req->all(), [
-            'name' => ['required', 'string', 'unique:profiles', 'max:255']
+            'name' => ['required', 'string', 'unique:profiles,name,'.$req->profileId.',id,deleted_at,NULL', 'max:50']
         ],[
-            'name.required' => 'Name is required.',
-            'name.unique' => 'The name '.$ucName.' is already exist.'
+            'name.required' => 'Profile name is required.',
+            'name.unique' => 'Profile name is already exist.'
         ]);
 
         if ($validator->fails()) {
@@ -77,10 +82,13 @@ class ProfileController extends Controller
         $profile = Profile::find($req->profileId);
 
         if ($profile->is_default) {
-            $profile->update(['is_default' => false]);
-            $oldestProfile = Profile::where('deleted_at', null)->oldest()->first();
-            $oldestProfile->update([
-                'is_default' => true
+            // $profile->update(['is_default' => false]);
+            // $oldestProfile = Profile::where('deleted_at', null)->oldest()->first();
+            // $oldestProfile->update([
+            //     'is_default' => true
+            // ]);
+            return response()->json([
+                'error' => 'You cannot deleted a default profile.'
             ]);
         }
 
