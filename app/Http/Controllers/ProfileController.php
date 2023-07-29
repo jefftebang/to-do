@@ -14,7 +14,7 @@ class ProfileController extends Controller
             'default' => Profile::where([
                 ['deleted_at', null],
                 ['is_default', true]
-            ])->first('id')
+            ])->first()
         ], 200);
     }
 
