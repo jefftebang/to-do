@@ -17,7 +17,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('profile_id');
             $table->string('title');
-            $table->longText('description');
+            $table->longText('description')->nullable();
+            $table->boolean('is_done')->nullable();
             $table->softDeletes();
             $table->timestamps();
 
