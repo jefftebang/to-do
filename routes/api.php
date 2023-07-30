@@ -21,9 +21,11 @@ Route::get('get-profiles', [ProfileController::class, 'getProfiles']);
 Route::post('store-profile', [ProfileController::class, 'storeProfile']);
 Route::post('update-profile', [ProfileController::class, 'updateProfile']);
 Route::get('delete-profile', [ProfileController::class, 'deleteProfile']);
+Route::get('make-default-profile', [ProfileController::class, 'makeDefault']);
 
 // ToDos
 Route::get('get-to-do-list', [ToDoController::class, 'getToDoList']);
 Route::post('store-to-do', [ToDoController::class, 'storeToDo']);
 Route::post('update-to-do', [ToDoController::class, 'updateToDo']);
 Route::get('delete-to-do', [ToDoController::class, 'deleteToDo']);
+Route::get('done-to-do', [ToDoController::class, 'finishToDo']);
