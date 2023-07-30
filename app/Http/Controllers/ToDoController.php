@@ -13,18 +13,12 @@ class ToDoController extends Controller
         $defaultProfile = Profile::where('is_default', true)->first();
         $selectedProfile = Profile::where('id', $req->profileId)->first();
 
-        $currentProfile = $req->profileId ? $selectedProfile->id : $defaultProfile->id;
+        $currentProfile = $req->profileId !== 'undefined' ? $selectedProfile->id : $defaultProfile->id;
         
         $toDos = ToDo::where([
             ['profile_id', $currentProfile],
             ['deleted_at', null]
         ])->get();
-
-        if ($toDos->isEmpty()) {
-            return response()->json([
-                'message' => 'No To Do list for the selected profile.'
-            ], 200);
-        }
 
         return response()->json([
             'todos' => $toDos
@@ -35,7 +29,7 @@ class ToDoController extends Controller
         $validator = Validator::make($req->all(), [
             'profileId' => ['required', 'integer'],
             'title' => ['required', 'string', 'max:60'],
-            'description' => ['required', 'string', 'max:255']
+            'description' => ['nullable', 'string', 'max:255']
         ],[
             'profileId.required' => 'Profile is required.',
             'title.required' => 'Title is required.',
@@ -57,7 +51,7 @@ class ToDoController extends Controller
         $toDo->save();
 
         return response()->json([
-            'success' => 'Your to do is successfully created.',
+            'success' => 'Your To Do is successfully created.',
             'todo' => $toDo
         ], 200);
     }
@@ -86,7 +80,7 @@ class ToDoController extends Controller
         ]);
 
         return response()->json([
-            'success' => 'Your to do is successfully updated.',
+            'success' => 'Your To Do is successfully updated.',
             'todo' => $toDo
         ], 200);
     }
@@ -96,7 +90,7 @@ class ToDoController extends Controller
         $toDo->delete();
 
         return response()->json([
-            'success' => 'To Do successfully deleted.',
+            'success' => 'Your To Do successfully deleted.',
             'todo' => $toDo
         ]);
     }

@@ -20,10 +20,10 @@ use App\Http\Controllers\ToDoController;
 Route::get('get-profiles', [ProfileController::class, 'getProfiles']);
 Route::post('store-profile', [ProfileController::class, 'storeProfile']);
 Route::post('update-profile', [ProfileController::class, 'updateProfile']);
-Route::post('delete-profile', [ProfileController::class, 'deleteProfile']);
+Route::get('delete-profile', [ProfileController::class, 'deleteProfile']);
 
 // ToDos
 Route::get('get-to-do-list', [ToDoController::class, 'getToDoList']);
-Route::post('store-to-do-list', [ToDoController::class, 'storeToDo']);
-Route::post('update-to-do-list', [ToDoController::class, 'updateToDo']);
-Route::post('delete-to-do-list', [ToDoController::class, 'deleteToDo']);
+Route::post('store-to-do', [ToDoController::class, 'storeToDo']);
+Route::post('update-to-do', [ToDoController::class, 'updateToDo']);
+Route::get('delete-to-do', [ToDoController::class, 'deleteToDo']);
