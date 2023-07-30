@@ -13,6 +13,7 @@ class ToDo extends Model
     protected $fillable = [
         'profile_id',
         'title',
-        'description'
+        'description',
+        'is_done'
     ];
 }

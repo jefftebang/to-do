@@ -33,7 +33,6 @@ class ToDoController extends Controller
         ],[
             'profileId.required' => 'Profile is required.',
             'title.required' => 'Title is required.',
-            'description.required' => 'Description is required.',
             'title.max' => 'The max length of the title is 60 characters only.',
             'description.max' => 'The max length of the description is 255 characters only.'
         ]);
@@ -48,6 +47,7 @@ class ToDoController extends Controller
         $toDo->profile_id = $req->profileId;
         $toDo->title = $req->title;
         $toDo->description = $req->description;
+        $toDo->is_done = false;
         $toDo->save();
 
         return response()->json([
@@ -59,10 +59,9 @@ class ToDoController extends Controller
     public function updateToDo(Request $req) {
         $validator = Validator::make($req->all(), [
             'title' => ['required', 'string', 'max:60'],
-            'description' => ['required', 'string', 'max:255']
+            'description' => ['nullable', 'string', 'max:255']
         ],[
             'title.required' => 'Title is required.',
-            'description.required' => 'Description is required.',
             'title.max' => 'The max length of the title is 60 characters only.',
             'description.max' => 'The max length of the description is 255 characters only.'
         ]);
@@ -92,6 +91,20 @@ class ToDoController extends Controller
         return response()->json([
             'success' => 'Your To Do successfully deleted.',
             'todo' => $toDo
+        ], 200);
+    }
+
+    public function finishToDo(Request $req) {
+        $toDo = ToDo::find($req->toDoId);
+        $toDo->update([
+            'is_done' => $toDo->is_done == true ? false : true
         ]);
+
+        return response()->json([
+            'success' => 'Your To Do successfully marked as '.($toDo->is_done === true ? 'done' : 'undone').'.',
+            'toDo_Id' => $toDo->id,
+            'toDo_Title' => $toDo->title,
+            'toDo_IsDone' => $toDo->is_done == true ? 1 : 0,
+        ], 200);
     }
 }
