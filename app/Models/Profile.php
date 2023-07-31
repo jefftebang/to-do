@@ -6,14 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 
-class ToDo extends Model
+class Profile extends Model
 {
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'profile_id',
-        'title',
-        'description',
-        'is_done'
+        'name',
+        'is_default'
     ];
 }

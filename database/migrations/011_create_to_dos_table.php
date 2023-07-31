@@ -15,10 +15,18 @@ return new class extends Migration
     {
         Schema::create('to_dos', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('profile_id');
             $table->string('title');
-            $table->longText('description');
+            $table->longText('description')->nullable();
+            $table->boolean('is_done')->nullable();
             $table->softDeletes();
             $table->timestamps();
+
+            $table->foreign('profile_id')
+                ->references('id')
+                ->on('profiles')
+                ->onUpdate('cascade')
+                ->onDelete('restrict');
         });
     }
 
